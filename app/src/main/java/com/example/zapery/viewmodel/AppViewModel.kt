@@ -49,6 +49,11 @@ class AppViewModel : ViewModel() {
         carrinho.clear()
     }
 
+    fun autenticar(email: String, senha: String): Boolean {
+        if (email.isBlank() || senha.isBlank()) return false
+        return usuarios.any { it.email.equals(email.trim(), ignoreCase = true) && it.senha == senha }
+    }
+
     // Compras rápidas
     fun alternarSelecaoRapida(produtoId: Int) {
         if (selecaoRapida.contains(produtoId)) selecaoRapida.remove(produtoId) else selecaoRapida.add(produtoId)

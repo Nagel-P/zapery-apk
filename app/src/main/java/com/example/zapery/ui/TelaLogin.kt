@@ -8,11 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -40,8 +43,11 @@ fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
         Spacer(Modifier.height(16.dp))
 
         Button(onClick = {
-            // Simula login
-            navController.navigate("mercados")
+            if (viewModel.autenticar(email, senha)) {
+                navController.navigate("mercados")
+            } else {
+                Toast.makeText(context, "Email ou senha inválidos", Toast.LENGTH_SHORT).show()
+            }
         }) {
             Text("Entrar")
         }
