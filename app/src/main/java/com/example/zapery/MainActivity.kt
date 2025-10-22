@@ -1,36 +1,39 @@
 package com.example.zapery
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.zapery.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.zapery.ui.theme.ZaperyTheme
+import com.example.zapery.viewmodel.AppViewModel
+import com.example.zapery.ui.*
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+            ZaperyTheme {
+                val navController = rememberNavController()
+                val appViewModel: AppViewModel = viewModel()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        // teste bizarro
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+                Surface(color = MaterialTheme.colors.background) {
+                    NavHost(navController = navController, startDestination = "login") {
+                        composable("login") { TelaLogin(navController, appViewModel) }
+                        composable("cadastro") { TelaCadastro(navController, appViewModel) }
+                        composable("mercados") { TelaMercados(navController, appViewModel) }
+                        composable("produtos/{mercadoId}") { TelaProdutos(navController, appViewModel) }
+                        composable("carrinho") { TelaCarrinho(navController, appViewModel) }
+                        composable("compras_rapidas") { TelaComprasRapidas(navController, appViewModel) }
+                        composable("confirmacao") { TelaConfirmacao(navController, appViewModel) }
+                        composable("pedido_finalizado") { TelaPedidoFinalizado(navController, appViewModel) }
+                    }
+                }
+            }
+        }
     }
 }
