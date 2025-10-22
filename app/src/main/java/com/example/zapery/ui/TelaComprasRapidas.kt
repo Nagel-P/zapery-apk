@@ -13,11 +13,14 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.Checkbox
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import coil.compose.AsyncImage
 
 @Composable
 fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
     val context = LocalContext.current
-    val comprasRapidas = listOf("Leite", "Pão", "Ovos")
 
     Scaffold(
         topBar = {
@@ -34,36 +37,55 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
             Spacer(Modifier.height(16.dp))
             LazyColumn {
-                items(comprasRapidas) { nome ->
-                    val produto = viewModel.produtos.find { it.nome == nome }
-                    if (produto != null) {
-                        Card(
+                items(viewModel.produtos) { produto ->
+                    val checked = viewModel.estaSelecionadoRapido(produto.id)
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(8.dp),
-                            elevation = 4.dp
+                                .padding(16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(produto.nome, style = MaterialTheme.typography.body1)
-                                Button(onClick = {
-                                    viewModel.adicionarAoCarrinho(produto)
-                                    Toast.makeText(context, "${produto.nome} adicionado ao carrinho", Toast.LENGTH_SHORT).show()
-                                }) {
-                                    Text("Adicionar")
+                            Row(modifier = Modifier.weight(1f)) {
+                                produto.imageUrl?.let { url ->
+                                    AsyncImage(
+                                        model = url,
+                                        contentDescription = produto.nome,
+                                        modifier = Modifier
+                                            .size(56.dp)
+                                            .clip(RoundedCornerShape(8.dp))
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(produto.nome, style = MaterialTheme.typography.body1)
+                                    Text("R$ %,.2f".format(produto.preco), style = MaterialTheme.typography.body2)
                                 }
                             }
+                            Checkbox(
+                                checked = checked,
+                                onCheckedChange = { viewModel.alternarSelecaoRapida(produto.id) }
+                            )
                         }
                     }
                 }
             }
             Spacer(Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("carrinho") }) {
-                Text("Ir para Carrinho")
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Button(onClick = {
+                    viewModel.enviarSelecaoRapidaParaCarrinho()
+                    navController.navigate("carrinho")
+                }) { Text("Enviar ao Carrinho") }
+                Button(onClick = {
+                    viewModel.enviarSelecaoRapidaParaCarrinho()
+                    navController.navigate("confirmacao")
+                }) { Text("Finalizar Agora") }
             }
         }
     }
