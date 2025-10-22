@@ -1,6 +1,12 @@
 package com.example.zapery.model
 
-data class ItemCarrinho(
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+class ItemCarrinho(
     val produto: Produto,
-    var quantidade: Int = 1
-)
+    quantidade: Int = 1
+) {
+    var quantidade: Int by mutableStateOf(quantidade)
+}

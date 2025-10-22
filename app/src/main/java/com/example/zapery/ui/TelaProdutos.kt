@@ -13,6 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
+import coil.compose.AsyncImage
 
 @Composable
 fun TelaProdutos(navController: NavController, viewModel: AppViewModel) {
@@ -37,7 +42,8 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        elevation = 4.dp
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Row(
                             modifier = Modifier
@@ -45,9 +51,21 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel) {
                                 .padding(16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Column {
-                                Text(produto.nome, style = MaterialTheme.typography.body1)
-                                Text("R$ ${produto.preco}", style = MaterialTheme.typography.body2)
+                            Row(modifier = Modifier.weight(1f)) {
+                                if (produto.imageUrl != null) {
+                                    AsyncImage(
+                                        model = produto.imageUrl,
+                                        contentDescription = produto.nome,
+                                        modifier = Modifier
+                                            .size(56.dp)
+                                            .clip(RoundedCornerShape(8.dp))
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(produto.nome, style = MaterialTheme.typography.body1)
+                                    Text("R$ %,.2f".format(produto.preco), style = MaterialTheme.typography.body2)
+                                }
                             }
                             Button(onClick = {
                                 viewModel.adicionarAoCarrinho(produto)
