@@ -1,7 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.zapery.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ import com.example.zapery.viewmodel.AppViewModel
 fun TelaPedidoFinalizado(navController: NavController, viewModel: AppViewModel) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text("Pedido finalizado") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
