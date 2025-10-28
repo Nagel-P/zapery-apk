@@ -1,28 +1,25 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.zapery.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import coil.compose.AsyncImage
 
 @Composable
 fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
-    val context = LocalContext.current
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text("Carrinho") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -42,7 +39,6 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
-                            elevation = 4.dp,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Row(
@@ -52,25 +48,15 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Row(modifier = Modifier.weight(1f)) {
-                                    item.produto.imageUrl?.let { url ->
-                                        AsyncImage(
-                                            model = url,
-                                            contentDescription = item.produto.nome,
-                                            modifier = Modifier
-                                                .size(56.dp)
-                                                .clip(RoundedCornerShape(8.dp))
-                                        )
-                                        Spacer(Modifier.width(12.dp))
-                                    }
                                     Column(modifier = Modifier.weight(1f)) {
-                                        Text(item.produto.nome, style = MaterialTheme.typography.body1)
+                                        Text(item.produto.nome, style = MaterialTheme.typography.bodyMedium)
                                         Text(
                                             "R$ %,.2f x ${item.quantidade}".format(item.produto.preco),
-                                            style = MaterialTheme.typography.body2
+                                            style = MaterialTheme.typography.bodySmall
                                         )
                                         Text(
                                             "Subtotal: R$ %,.2f".format(item.produto.preco * item.quantidade),
-                                            style = MaterialTheme.typography.body2
+                                            style = MaterialTheme.typography.bodySmall
                                         )
                                     }
                                 }
@@ -86,7 +72,7 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
                     }
                 }
                 Spacer(Modifier.height(16.dp))
-                Text("Total: R$ %,.2f".format(viewModel.calcularTotal()), style = MaterialTheme.typography.h6)
+                Text("Total: R$ %,.2f".format(viewModel.calcularTotal()), style = MaterialTheme.typography.titleLarge)
                 Spacer(Modifier.height(16.dp))
                 Button(onClick = { navController.navigate("confirmacao") }) {
                     Text("Finalizar Compra")
@@ -95,4 +81,5 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
         }
     }
 }
+
 

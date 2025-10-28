@@ -1,30 +1,26 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.zapery.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.Checkbox
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
-import coil.compose.AsyncImage
 
 @Composable
 fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
-    val context = LocalContext.current
-
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text("Compras Rápidas") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -34,16 +30,26 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
             )
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+            .padding(16.dp)) {
             Spacer(Modifier.height(16.dp))
-            LazyColumn {
-                items(viewModel.produtos) { produto ->
+            val selecionados = remember(viewModel.selecaoRapida, viewModel.produtos) {
+                viewModel.produtos.filter { viewModel.selecaoRapida.contains(it.id) }
+            }
+            if (selecionados.isEmpty()) {
+                Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    Text("Nenhum produto selecionado. Marque a estrela na lista de produtos para incluir aqui.")
+                }
+            } else {
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(selecionados) { produto ->
                     val checked = viewModel.estaSelecionadoRapido(produto.id)
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        elevation = 4.dp,
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Row(
@@ -53,19 +59,9 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Row(modifier = Modifier.weight(1f)) {
-                                produto.imageUrl?.let { url ->
-                                    AsyncImage(
-                                        model = url,
-                                        contentDescription = produto.nome,
-                                        modifier = Modifier
-                                            .size(56.dp)
-                                            .clip(RoundedCornerShape(8.dp))
-                                    )
-                                    Spacer(Modifier.width(12.dp))
-                                }
                                 Column(modifier = Modifier.weight(1f)) {
-                                    Text(produto.nome, style = MaterialTheme.typography.body1)
-                                    Text("R$ %,.2f".format(produto.preco), style = MaterialTheme.typography.body2)
+                                    Text(produto.nome, style = MaterialTheme.typography.bodyMedium)
+                                    Text("R$ %,.2f".format(produto.preco), style = MaterialTheme.typography.bodySmall)
                                 }
                             }
                             Checkbox(
@@ -73,6 +69,7 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                                 onCheckedChange = { viewModel.alternarSelecaoRapida(produto.id) }
                             )
                         }
+                    }
                     }
                 }
             }

@@ -1,10 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.zapery.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,7 +18,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text("Mercados") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -28,22 +29,30 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
-            Text("Selecione um Mercado", style = MaterialTheme.typography.h6)
+            Text("Selecione um Mercado", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
             LazyColumn {
                 items(viewModel.mercados) { mercado ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable { navController.navigate("produtos/${mercado.id}") },
-                        elevation = 4.dp
+                            .padding(8.dp),
                     ) {
-                        Text(
-                            text = mercado.nome,
-                            modifier = Modifier.padding(16.dp),
-                            style = MaterialTheme.typography.body1
-                        )
+                        Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                            Text(
+                                text = mercado.nome,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { navController.navigate("produtos/${mercado.id}") }
+                            )
+                            if (viewModel.currentUserIsAdmin) {
+                                Spacer(Modifier.height(8.dp))
+                                Button(onClick = { navController.navigate("produto_form/${mercado.id}") }) {
+                                    Text("Cadastrar Produto neste Mercado")
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -51,6 +60,13 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
             Button(onClick = { navController.navigate("compras_rapidas") }) {
                 Text("Compras Rápidas")
             }
+            if (viewModel.currentUserIsAdmin) {
+                Spacer(Modifier.height(8.dp))
+                Button(onClick = { navController.navigate("admin") }) {
+                    Text("Admin")
+                }
+            }
         }
     }
 }
+
