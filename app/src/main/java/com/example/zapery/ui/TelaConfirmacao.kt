@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaConfirmacao(navController: NavController, viewModel: AppViewModel) {
@@ -25,7 +26,10 @@ fun TelaConfirmacao(navController: NavController, viewModel: AppViewModel) {
             )
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .padding(16.dp)
+            .fillMaxWidth()) {
             Text("Resumo da Compra", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
             viewModel.carrinho.forEach { item ->
@@ -34,12 +38,14 @@ fun TelaConfirmacao(navController: NavController, viewModel: AppViewModel) {
             Spacer(Modifier.height(16.dp))
             Text("Total: R$ ${viewModel.calcularTotal()}", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
-            Button(onClick = {
-                viewModel.finalizarCompra()
-                navController.navigate("pedido_finalizado")
-            }) {
-                Text("Finalizar Compra")
-            }
+            PrimaryButton(
+                text = "Finalizar Compra",
+                onClick = {
+                    viewModel.finalizarCompra()
+                    navController.navigate("pedido_finalizado")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

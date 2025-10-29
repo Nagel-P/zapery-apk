@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
+import com.example.zapery.ui.components.PrimaryButton
+import com.example.zapery.ui.components.SecondaryButton
 
 @Composable
 fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
@@ -74,15 +76,23 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                 }
             }
             Spacer(Modifier.height(16.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onClick = {
-                    viewModel.enviarSelecaoRapidaParaCarrinho()
-                    navController.navigate("carrinho")
-                }) { Text("Enviar ao Carrinho") }
-                Button(onClick = {
-                    viewModel.enviarSelecaoRapidaParaCarrinho()
-                    navController.navigate("confirmacao")
-                }) { Text("Finalizar Agora") }
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                PrimaryButton(
+                    text = "Enviar ao Carrinho",
+                    onClick = {
+                        viewModel.enviarSelecaoRapidaParaCarrinho()
+                        navController.navigate("carrinho")
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+                SecondaryButton(
+                    text = "Finalizar Agora",
+                    onClick = {
+                        viewModel.enviarSelecaoRapidaParaCarrinho()
+                        navController.navigate("confirmacao")
+                    },
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

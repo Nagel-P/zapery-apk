@@ -54,6 +54,7 @@ fun ZaperyThemeM3(
     MaterialTheme(
         colorScheme = colors,
         typography = Typography3,
+        shapes = Shapes3,
         content = content
     )
 }
