@@ -20,4 +20,7 @@ interface MercadoDao {
 
     @Query("SELECT * FROM markets WHERE id = :id")
     suspend fun findById(id: Int): MercadoEntidade?
+
+    @Query("DELETE FROM markets WHERE id = :id")
+    suspend fun deleteById(id: Int)
 }

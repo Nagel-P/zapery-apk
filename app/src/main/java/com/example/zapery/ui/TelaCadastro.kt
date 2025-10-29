@@ -44,26 +44,30 @@ fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
             .padding(16.dp)
             .fillMaxWidth()) {
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(
-                value = nome,
-                onValueChange = { nome = it },
-                label = { Text("Nome") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(8.dp))
-            EmailField(value = email, onValueChange = { email = it }, modifier = Modifier.fillMaxWidth())
-            Spacer(Modifier.height(8.dp))
-            PasswordField(value = senha, onValueChange = { senha = it }, modifier = Modifier.fillMaxWidth())
-            Spacer(Modifier.height(16.dp))
-            PrimaryButton(text = "Cadastrar", onClick = {
-                if (nome.isNotEmpty() && email.isNotEmpty() && senha.isNotEmpty()) {
-                    viewModel.cadastrar(Usuario(viewModel.usuarios.size + 1, nome, email, senha))
-                    scope.launch { snackbarHostState.showSnackbar("Cadastro realizado com sucesso!") }
-                    navController.navigate("login")
-                } else {
-                    scope.launch { snackbarHostState.showSnackbar("Preencha todos os campos") }
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    OutlinedTextField(
+                        value = nome,
+                        onValueChange = { nome = it },
+                        label = { Text("Nome") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    EmailField(value = email, onValueChange = { email = it }, modifier = Modifier.fillMaxWidth())
+                    Spacer(Modifier.height(8.dp))
+                    PasswordField(value = senha, onValueChange = { senha = it }, modifier = Modifier.fillMaxWidth())
+                    Spacer(Modifier.height(16.dp))
+                    PrimaryButton(text = "Cadastrar", onClick = {
+                        if (nome.isNotEmpty() && email.isNotEmpty() && senha.isNotEmpty()) {
+                            viewModel.cadastrar(Usuario(viewModel.usuarios.size + 1, nome, email, senha))
+                            scope.launch { snackbarHostState.showSnackbar("Cadastro realizado com sucesso!") }
+                            navController.navigate("login")
+                        } else {
+                            scope.launch { snackbarHostState.showSnackbar("Preencha todos os campos") }
+                        }
+                    }, modifier = Modifier.fillMaxWidth())
                 }
-            })
+            }
         }
     }
 }

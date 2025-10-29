@@ -8,4 +8,5 @@ class MercadoRepositorio(private val dao: MercadoDao) {
     suspend fun update(market: MercadoEntidade) = dao.update(market)
     suspend fun getAll(): List<MercadoEntidade> = dao.getAll()
     suspend fun findById(id: Int): MercadoEntidade? = dao.findById(id)
+    suspend fun deleteById(id: Int) = dao.deleteById(id)
 }
