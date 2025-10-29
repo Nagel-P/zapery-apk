@@ -32,11 +32,16 @@ fun TelaConfirmacao(navController: NavController, viewModel: AppViewModel) {
             .fillMaxWidth()) {
             Text("Resumo da Compra", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
-            viewModel.carrinho.forEach { item ->
-                Text("${item.produto.nome} x ${item.quantidade} = R$ ${item.produto.preco * item.quantidade}")
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    viewModel.carrinho.forEach { item ->
+                        val subtotal = item.produto.preco * item.quantidade
+                        Text("${item.produto.nome} x ${item.quantidade} = R$ %,.2f".format(subtotal))
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    Text("Total: R$ %,.2f".format(viewModel.calcularTotal()), style = MaterialTheme.typography.titleLarge)
+                }
             }
-            Spacer(Modifier.height(16.dp))
-            Text("Total: R$ ${viewModel.calcularTotal()}", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
             PrimaryButton(
                 text = "Finalizar Compra",

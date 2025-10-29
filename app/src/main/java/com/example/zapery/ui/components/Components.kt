@@ -1,6 +1,9 @@
 package com.example.zapery.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -13,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,14 +28,21 @@ fun PrimaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    compact: Boolean = false,
+    leadingIcon: ImageVector? = null,
+    iconContentDescription: String? = null
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier,
-        contentPadding = ButtonDefaults.ContentPadding
+        contentPadding = if (compact) PaddingValues(horizontal = 12.dp, vertical = 10.dp) else ButtonDefaults.ContentPadding
     ) {
+        if (leadingIcon != null) {
+            Icon(imageVector = leadingIcon, contentDescription = iconContentDescription)
+            Spacer(Modifier.width(8.dp))
+        }
         Text(text)
     }
 }
@@ -41,13 +52,21 @@ fun SecondaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    compact: Boolean = false,
+    leadingIcon: ImageVector? = null,
+    iconContentDescription: String? = null
 ) {
     FilledTonalButton(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier
+        modifier = modifier,
+        contentPadding = if (compact) PaddingValues(horizontal = 12.dp, vertical = 10.dp) else ButtonDefaults.ContentPadding
     ) {
+        if (leadingIcon != null) {
+            Icon(imageVector = leadingIcon, contentDescription = iconContentDescription)
+            Spacer(Modifier.width(8.dp))
+        }
         Text(text)
     }
 }

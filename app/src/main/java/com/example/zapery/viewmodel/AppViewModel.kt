@@ -23,7 +23,6 @@ class AppViewModel(
     private val quickRepo: CompraRapidaRepositorio
 ) : ViewModel() {
     companion object {
-        // Ajuste este email para o administrador oficial
         private const val ADMIN_EMAIL = "admin@zapery.local"
     }
     val usuarios = mutableStateListOf<Usuario>()
@@ -155,6 +154,22 @@ class AppViewModel(
         if (!currentUserIsAdmin) return
         viewModelScope.launch {
             marketRepo.insert(MercadoEntidade(nome = nome, endereco = endereco))
+            loadAll()
+        }
+    }
+
+    fun adminUpdateMarket(id: Int, nome: String, endereco: String) {
+        if (!currentUserIsAdmin) return
+        viewModelScope.launch {
+            marketRepo.update(MercadoEntidade(id = id, nome = nome, endereco = endereco))
+            loadAll()
+        }
+    }
+
+    fun adminDeleteMarket(id: Int) {
+        if (!currentUserIsAdmin) return
+        viewModelScope.launch {
+            marketRepo.deleteById(id)
             loadAll()
         }
     }

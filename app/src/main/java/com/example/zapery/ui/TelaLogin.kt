@@ -53,7 +53,7 @@ fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
                 onValueChange = { senha = it },
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(16.dp))
             PrimaryButton(
                 text = "Entrar",
                 onClick = {
@@ -66,7 +66,7 @@ fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(8.dp))
-            SecondaryButton(text = "Criar Conta", onClick = { navController.navigate("cadastro") })
+            SecondaryButton(text = "Criar Conta", onClick = { navController.navigate("cadastro") }, modifier = Modifier.fillMaxWidth())
         }
     }
 }
