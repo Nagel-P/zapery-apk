@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaProdutoForm(
@@ -74,26 +75,28 @@ fun TelaProdutoForm(
             )
             Spacer(Modifier.height(24.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onClick = {
-                    val preco = precoText.toDoubleOrNull()
-                    if (nome.isNotBlank() && preco != null) {
-                        if (isEdit && productId != null) {
-                            viewModel.adminUpdateProduct(productId, marketId, nome.trim(), preco, null)
-                        } else {
-                            viewModel.adminAddProduct(marketId, nome.trim(), preco, null)
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                PrimaryButton(
+                    text = if (isEdit) "Salvar Alterações" else "Cadastrar",
+                    onClick = {
+                        val preco = precoText.toDoubleOrNull()
+                        if (nome.isNotBlank() && preco != null) {
+                            if (isEdit && productId != null) {
+                                viewModel.adminUpdateProduct(productId, marketId, nome.trim(), preco, null)
+                            } else {
+                                viewModel.adminAddProduct(marketId, nome.trim(), preco, null)
+                            }
+                            navController.popBackStack()
                         }
-                        navController.popBackStack()
-                    }
-                }) {
-                    Text(if (isEdit) "Salvar Alterações" else "Cadastrar")
-                }
+                    },
+                    modifier = Modifier.weight(1f)
+                )
 
                 if (isEdit && productId != null) {
                     OutlinedButton(onClick = {
                         viewModel.adminDeleteProduct(productId)
                         navController.popBackStack()
-                    }) {
+                    }, modifier = Modifier.weight(1f)) {
                         Text("Excluir")
                     }
                 }
@@ -101,3 +104,4 @@ fun TelaProdutoForm(
         }
     }
 }
+

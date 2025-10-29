@@ -13,6 +13,9 @@ import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import kotlinx.coroutines.launch
+import com.example.zapery.ui.components.EmailField
+import com.example.zapery.ui.components.PasswordField
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
@@ -36,15 +39,23 @@ fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
             )
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .padding(16.dp)
+            .fillMaxWidth()) {
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = nome, onValueChange = { nome = it }, label = { Text("Nome") })
+            OutlinedTextField(
+                value = nome,
+                onValueChange = { nome = it },
+                label = { Text("Nome") },
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
+            EmailField(value = email, onValueChange = { email = it }, modifier = Modifier.fillMaxWidth())
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = senha, onValueChange = { senha = it }, label = { Text("Senha") })
+            PasswordField(value = senha, onValueChange = { senha = it }, modifier = Modifier.fillMaxWidth())
             Spacer(Modifier.height(16.dp))
-            Button(onClick = {
+            PrimaryButton(text = "Cadastrar", onClick = {
                 if (nome.isNotEmpty() && email.isNotEmpty() && senha.isNotEmpty()) {
                     viewModel.cadastrar(Usuario(viewModel.usuarios.size + 1, nome, email, senha))
                     scope.launch { snackbarHostState.showSnackbar("Cadastro realizado com sucesso!") }
@@ -52,9 +63,8 @@ fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
                 } else {
                     scope.launch { snackbarHostState.showSnackbar("Preencha todos os campos") }
                 }
-            }) {
-                Text("Cadastrar")
-            }
+            })
         }
     }
 }
+

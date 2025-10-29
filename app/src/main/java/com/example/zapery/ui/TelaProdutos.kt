@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import kotlinx.coroutines.launch
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaProdutos(navController: NavController, viewModel: AppViewModel, mercadoId: Int) {
@@ -41,7 +42,10 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel, mercadoI
             )
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .padding(16.dp)
+            .fillMaxSize()) {
             Spacer(Modifier.height(16.dp))
             val lista = remember(viewModel.produtos, mercadoId) { viewModel.produtos.filter { it.mercadoId == mercadoId } }
             LazyColumn {
@@ -77,21 +81,17 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel, mercadoI
                                         contentDescription = "Compra rápida"
                                     )
                                 }
-                                Button(onClick = {
+                                PrimaryButton(text = "Adicionar", onClick = {
                                     viewModel.adicionarAoCarrinho(produto)
                                     scope.launch { snackbarHostState.showSnackbar("${produto.nome} adicionado ao carrinho") }
-                                }) {
-                                    Text("Adicionar")
-                                }
+                                })
                             }
                         }
                     }
                 }
             }
             Spacer(Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("carrinho") }) {
-                Text("Ir para Carrinho")
-            }
+            PrimaryButton(text = "Ir para Carrinho", onClick = { navController.navigate("carrinho") })
         }
     }
 }

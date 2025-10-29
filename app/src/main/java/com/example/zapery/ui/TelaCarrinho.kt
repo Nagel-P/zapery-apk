@@ -9,11 +9,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import android.widget.Toast
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
@@ -74,12 +74,8 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
                 Spacer(Modifier.height(16.dp))
                 Text("Total: R$ %,.2f".format(viewModel.calcularTotal()), style = MaterialTheme.typography.titleLarge)
                 Spacer(Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("confirmacao") }) {
-                    Text("Finalizar Compra")
-                }
+                PrimaryButton(text = "Finalizar Compra", onClick = { navController.navigate("confirmacao") }, modifier = Modifier.fillMaxWidth())
             }
         }
     }
 }
-
-

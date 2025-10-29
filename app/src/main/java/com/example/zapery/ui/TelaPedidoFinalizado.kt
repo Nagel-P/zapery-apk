@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaPedidoFinalizado(navController: NavController, viewModel: AppViewModel) {
@@ -40,9 +41,7 @@ fun TelaPedidoFinalizado(navController: NavController, viewModel: AppViewModel) 
             Spacer(Modifier.height(12.dp))
             Text("Previsão de chegada: entre 30 e 45 minutos")
             Spacer(Modifier.height(24.dp))
-            Button(onClick = { navController.navigate("mercados") }) {
-                Text("Voltar às compras")
-            }
+            PrimaryButton(text = "Voltar às compras", onClick = { navController.navigate("mercados") }, modifier = Modifier.fillMaxWidth())
         }
     }
 }

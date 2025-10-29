@@ -11,6 +11,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
 import kotlinx.coroutines.launch
+import com.example.zapery.ui.components.EmailField
+import com.example.zapery.ui.components.PasswordField
+import com.example.zapery.ui.components.PrimaryButton
+import com.example.zapery.ui.components.SecondaryButton
 
 @Composable
 fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
@@ -38,36 +42,32 @@ fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
             Text(text = "Bem-vindo ao Zapery", style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(20.dp))
 
-            OutlinedTextField(
+            EmailField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
-                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(12.dp))
-            OutlinedTextField(
+            PasswordField(
                 value = senha,
                 onValueChange = { senha = it },
-                label = { Text("Senha") },
-                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(24.dp))
-
-            Button(onClick = {
-                if (viewModel.autenticar(email, senha)) {
-                    navController.navigate("mercados")
-                } else {
-                    scope.launch { snackbarHostState.showSnackbar("Email ou senha inválidos") }
-                }
-            }, modifier = Modifier.fillMaxWidth()) {
-                Text("Entrar")
-            }
+            PrimaryButton(
+                text = "Entrar",
+                onClick = {
+                    if (viewModel.autenticar(email, senha)) {
+                        navController.navigate("mercados")
+                    } else {
+                        scope.launch { snackbarHostState.showSnackbar("Email ou senha inválidos") }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(Modifier.height(8.dp))
-            FilledTonalButton(onClick = { navController.navigate("cadastro") }) {
-                Text("Criar Conta")
-            }
+            SecondaryButton(text = "Criar Conta", onClick = { navController.navigate("cadastro") })
         }
     }
 }
+

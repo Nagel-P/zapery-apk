@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
@@ -28,7 +29,10 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
             )
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .padding(16.dp)
+            .fillMaxSize()) {
             Text("Selecione um Mercado", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
             LazyColumn {
@@ -48,23 +52,20 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
                             )
                             if (viewModel.currentUserIsAdmin) {
                                 Spacer(Modifier.height(8.dp))
-                                Button(onClick = { navController.navigate("produto_form/${mercado.id}") }) {
-                                    Text("Cadastrar Produto neste Mercado")
-                                }
+                                PrimaryButton(
+                                    text = "Cadastrar Produto neste Mercado",
+                                    onClick = { navController.navigate("produto_form/${mercado.id}") }
+                                )
                             }
                         }
                     }
                 }
             }
             Spacer(Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("compras_rapidas") }) {
-                Text("Compras Rápidas")
-            }
+            PrimaryButton(text = "Compras Rápidas", onClick = { navController.navigate("compras_rapidas") })
             if (viewModel.currentUserIsAdmin) {
                 Spacer(Modifier.height(8.dp))
-                Button(onClick = { navController.navigate("admin") }) {
-                    Text("Admin")
-                }
+                PrimaryButton(text = "Admin", onClick = { navController.navigate("admin") })
             }
         }
     }

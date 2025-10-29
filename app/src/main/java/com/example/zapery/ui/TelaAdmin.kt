@@ -14,11 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
+import com.example.zapery.ui.components.PrimaryButton
 
 @Composable
 fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarketId: Int?) {
     if (!viewModel.currentUserIsAdmin) {
-        // Sem acesso
         Scaffold(topBar = {
             CenterAlignedTopAppBar(title = { Text("Admin") }, navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
@@ -35,7 +35,6 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
 
     var mercadoNome by remember { mutableStateOf("") }
     var mercadoEndereco by remember { mutableStateOf("") }
-    // presetMarketId pode ser usado futuramente para pré-seleções; atualmente não utilizado
 
     Scaffold(
         topBar = {
@@ -55,12 +54,16 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(value = mercadoEndereco, onValueChange = { mercadoEndereco = it }, label = { Text("Endereço") }, modifier = Modifier.fillMaxWidth())
                 Spacer(Modifier.height(8.dp))
-                Button(onClick = {
-                    if (mercadoNome.isNotBlank() && mercadoEndereco.isNotBlank()) {
-                        viewModel.adminAddMarket(mercadoNome.trim(), mercadoEndereco.trim())
-                        mercadoNome = ""; mercadoEndereco = ""
-                    }
-                }) { Text("Salvar Mercado") }
+                PrimaryButton(
+                    text = "Salvar Mercado",
+                    onClick = {
+                        if (mercadoNome.isNotBlank() && mercadoEndereco.isNotBlank()) {
+                            viewModel.adminAddMarket(mercadoNome.trim(), mercadoEndereco.trim())
+                            mercadoNome = ""; mercadoEndereco = ""
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
                 Spacer(Modifier.height(24.dp))
                 Divider()
