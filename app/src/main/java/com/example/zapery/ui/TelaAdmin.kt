@@ -8,6 +8,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
@@ -52,7 +54,12 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
         LazyColumn(modifier = Modifier.padding(padding).padding(16.dp)) {
             if (presetMarketId == null) {
                 item {
-                    Text("Cadastrar Mercado", style = MaterialTheme.typography.titleLarge)
+                    Text(
+                        "Cadastrar Mercado",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(Modifier.height(8.dp))
                     OutlinedTextField(value = mercadoNome, onValueChange = { mercadoNome = it }, label = { Text("Nome do Mercado") }, modifier = Modifier.fillMaxWidth())
                     Spacer(Modifier.height(8.dp))
@@ -72,12 +79,21 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
                     Spacer(Modifier.height(24.dp))
                     Divider()
                     Spacer(Modifier.height(16.dp))
-                    Text("Produtos", style = MaterialTheme.typography.titleLarge)
+                    Text(
+                        "Produtos",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(Modifier.height(8.dp))
                 }
 
                 items(viewModel.produtos) { p ->
-                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                    OutlinedCard(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
                         Row(modifier = Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(p.nome)
@@ -96,10 +112,19 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
                 // Gestão de um mercado específico
                 val mercado = viewModel.mercados.find { it.id == presetMarketId }
                 item {
-                    Text("Gerenciar Mercado", style = MaterialTheme.typography.titleLarge)
+                    Text(
+                        "Gerenciar Mercado",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(Modifier.height(8.dp))
                     if (mercado != null) {
-                        Card(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                        ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text(mercado.nome, style = MaterialTheme.typography.titleMedium)
                                 Spacer(Modifier.height(4.dp))
@@ -118,14 +143,23 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
                             }
                         }
                         Spacer(Modifier.height(16.dp))
-                        Text("Produtos deste mercado", style = MaterialTheme.typography.titleLarge)
+                        Text(
+                            "Produtos deste mercado",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
                         Spacer(Modifier.height(8.dp))
                     } else {
                         Text("Mercado não encontrado")
                     }
                 }
                 items(viewModel.produtos.filter { it.mercadoId == presetMarketId }) { p ->
-                    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                    OutlinedCard(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
                         Row(modifier = Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(p.nome)

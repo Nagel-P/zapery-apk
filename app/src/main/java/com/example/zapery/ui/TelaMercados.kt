@@ -17,6 +17,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Settings
 import com.example.zapery.ui.components.PrimaryButton
 import com.example.zapery.ui.components.SecondaryButton
 import kotlinx.coroutines.launch
@@ -48,6 +50,8 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
         floatingActionButton = {
             if (viewModel.currentUserIsAdmin) {
                 ExtendedFloatingActionButton(onClick = { navController.navigate("admin") }) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
                     Text("Cadastrar Mercado")
                 }
             }
@@ -61,7 +65,11 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
             Spacer(Modifier.height(16.dp))
 
             // Busca e ordenação (em Card para melhor organização visual)
-            Card(modifier = Modifier.fillMaxWidth()) {
+            OutlinedCard(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     OutlinedTextField(
                         value = query,
@@ -120,11 +128,13 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
             }
             LazyColumn {
                 items(ordered) { mercado ->
-                    Card(
+                    OutlinedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable { navController.navigate("produtos/${mercado.id}") },
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
                         Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -173,10 +183,20 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
                 }
             }
             Spacer(Modifier.height(16.dp))
-            PrimaryButton(text = "Compras Rápidas", onClick = { navController.navigate("compras_rapidas") })
+            PrimaryButton(
+                text = "Compras Rápidas",
+                onClick = { navController.navigate("compras_rapidas") },
+                leadingIcon = Icons.Filled.Star,
+                iconContentDescription = "Compras Rápidas"
+            )
             if (viewModel.currentUserIsAdmin) {
                 Spacer(Modifier.height(8.dp))
-                PrimaryButton(text = "Área do Administrador", onClick = { navController.navigate("admin") })
+                PrimaryButton(
+                    text = "Área do Administrador",
+                    onClick = { navController.navigate("admin") },
+                    leadingIcon = Icons.Filled.Settings,
+                    iconContentDescription = "Admin"
+                )
             }
         }
     }

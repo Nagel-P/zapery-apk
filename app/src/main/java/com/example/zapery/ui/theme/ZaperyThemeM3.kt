@@ -13,35 +13,35 @@ import androidx.compose.ui.platform.LocalContext
 import android.os.Build
 
 private val DarkColors: ColorScheme = darkColorScheme(
-    primary = Color(0xFF0EA5A4),
+    primary = Color(0xFF2563EB),
     onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF7CD4D2),
+    secondary = Color(0xFF60A5FA),
     onSecondary = Color(0xFF0A1F21),
     tertiary = Color(0xFFFFB74D),
-    background = Color(0xFF0F1115),
-    onBackground = Color(0xFFE6EAF2),
-    surface = Color(0xFF14161A),
-    onSurface = Color(0xFFE6EAF2),
+    background = Color(0xFF0B0F14),
+    onBackground = Color(0xFFE8EDF5),
+    surface = Color(0xFF0F141A),
+    onSurface = Color(0xFFE8EDF5),
     error = Color(0xFFCF6679)
 )
 
 private val LightColors: ColorScheme = lightColorScheme(
-    primary = Color(0xFF0EA5A4),
+    primary = Color(0xFF2563EB),
     onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF7CD4D2),
+    secondary = Color(0xFF60A5FA),
     onSecondary = Color(0xFF0B2324),
     tertiary = Color(0xFFFFB74D),
-    background = Color(0xFFF7F7FB),
-    onBackground = Color(0xFF111827),
+    background = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF0F172A),
     surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF111827),
+    onSurface = Color(0xFF0F172A),
     error = Color(0xFFB00020)
 )
 
 @Composable
 fun ZaperyThemeM3(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current

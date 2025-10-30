@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import android.widget.Toast
 import com.example.zapery.viewmodel.AppViewModel
@@ -17,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import com.example.zapery.ui.components.PrimaryButton
 import com.example.zapery.ui.components.SecondaryButton
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.CheckCircle
 
 @Composable
 fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
@@ -48,11 +51,13 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     items(selecionados) { produto ->
                     val checked = viewModel.estaSelecionadoRapido(produto.id)
-                    Card(
+                    OutlinedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
                         Row(
                             modifier = Modifier
@@ -83,7 +88,9 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                         viewModel.enviarSelecaoRapidaParaCarrinho()
                         navController.navigate("carrinho")
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    leadingIcon = Icons.Filled.ShoppingCart,
+                    iconContentDescription = "Carrinho"
                 )
                 SecondaryButton(
                     text = "Finalizar Agora",
@@ -91,10 +98,11 @@ fun TelaComprasRapidas(navController: NavController, viewModel: AppViewModel) {
                         viewModel.enviarSelecaoRapidaParaCarrinho()
                         navController.navigate("confirmacao")
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    leadingIcon = Icons.Filled.CheckCircle,
+                    iconContentDescription = "Finalizar"
                 )
             }
         }
     }
 }
-
