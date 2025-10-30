@@ -7,13 +7,6 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// Palette B: Neutros + Azul Petróleo
-// Primária: #006D77 (azul petróleo)
-// Secundária: #83C5BE (teal suave)
-// Terciária/acento (usaremos em secondaryVariant): #E1AD01 (mostarda)
-// Neutros claros: background #F5F6F7, surface #E9ECEF
-// Neutros escuros: background #202124, surface #303134
-
 private val DarkColorPalette = darkColors(
     primary = Color(0xFF006D77),
     primaryVariant = Color(0xFF005962),

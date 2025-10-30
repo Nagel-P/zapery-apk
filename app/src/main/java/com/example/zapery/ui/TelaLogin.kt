@@ -15,6 +15,9 @@ import com.example.zapery.ui.components.EmailField
 import com.example.zapery.ui.components.PasswordField
 import com.example.zapery.ui.components.PrimaryButton
 import com.example.zapery.ui.components.SecondaryButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.PersonAdd
 
 @Composable
 fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
@@ -63,11 +66,18 @@ fun TelaLogin(navController: NavController, viewModel: AppViewModel) {
                         scope.launch { snackbarHostState.showSnackbar("Email ou senha inválidos") }
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = Icons.Filled.Login,
+                iconContentDescription = "Entrar"
             )
             Spacer(Modifier.height(8.dp))
-            SecondaryButton(text = "Criar Conta", onClick = { navController.navigate("cadastro") }, modifier = Modifier.fillMaxWidth())
+            SecondaryButton(
+                text = "Criar Conta",
+                onClick = { navController.navigate("cadastro") },
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = Icons.Filled.PersonAdd,
+                iconContentDescription = "Criar Conta"
+            )
         }
     }
 }
-

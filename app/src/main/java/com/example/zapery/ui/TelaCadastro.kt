@@ -7,11 +7,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.zapery.model.Usuario
 import com.example.zapery.viewmodel.AppViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.PersonAdd
 import kotlinx.coroutines.launch
 import com.example.zapery.ui.components.EmailField
 import com.example.zapery.ui.components.PasswordField
@@ -44,7 +46,11 @@ fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
             .padding(16.dp)
             .fillMaxWidth()) {
             Spacer(Modifier.height(8.dp))
-            Card(modifier = Modifier.fillMaxWidth()) {
+            OutlinedCard(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     OutlinedTextField(
                         value = nome,
@@ -65,10 +71,9 @@ fun TelaCadastro(navController: NavController, viewModel: AppViewModel) {
                         } else {
                             scope.launch { snackbarHostState.showSnackbar("Preencha todos os campos") }
                         }
-                    }, modifier = Modifier.fillMaxWidth())
+                    }, modifier = Modifier.fillMaxWidth(), leadingIcon = Icons.Filled.PersonAdd, iconContentDescription = "Cadastrar")
                 }
             }
         }
     }
 }
-

@@ -22,6 +22,10 @@ import coil.compose.AsyncImage
 import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
+import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.launch
 import com.example.zapery.ui.components.PrimaryButton
 
@@ -46,15 +50,19 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel, mercadoI
             .padding(padding)
             .padding(16.dp)
             .fillMaxSize()) {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(4.dp))
+            Text("Lista de Produtos", style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+            Spacer(Modifier.height(12.dp))
             val lista = remember(viewModel.produtos, mercadoId) { viewModel.produtos.filter { it.mercadoId == mercadoId } }
             LazyColumn {
                 items(lista) { produto ->
-                    Card(
+                    OutlinedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
                         Row(
                             modifier = Modifier
@@ -84,14 +92,19 @@ fun TelaProdutos(navController: NavController, viewModel: AppViewModel, mercadoI
                                 PrimaryButton(text = "Adicionar", onClick = {
                                     viewModel.adicionarAoCarrinho(produto)
                                     scope.launch { snackbarHostState.showSnackbar("${produto.nome} adicionado ao carrinho") }
-                                })
+                                }, leadingIcon = Icons.Filled.AddShoppingCart, iconContentDescription = "Adicionar ao carrinho")
                             }
                         }
                     }
                 }
             }
             Spacer(Modifier.height(16.dp))
-            PrimaryButton(text = "Ir para Carrinho", onClick = { navController.navigate("carrinho") })
+            PrimaryButton(
+                text = "Ir para Carrinho",
+                onClick = { navController.navigate("carrinho") },
+                leadingIcon = Icons.Filled.ShoppingCart,
+                iconContentDescription = "Carrinho"
+            )
         }
     }
 }

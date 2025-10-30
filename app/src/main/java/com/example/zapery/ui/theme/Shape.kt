@@ -11,7 +11,6 @@ val Shapes = Shapes(
     large = RoundedCornerShape(0.dp)
 )
 
-// Material 3 shapes used by ZaperyThemeM3
 val Shapes3 = M3Shapes(
     extraSmall = RoundedCornerShape(6.dp),
     small = RoundedCornerShape(8.dp),

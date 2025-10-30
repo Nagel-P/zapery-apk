@@ -14,6 +14,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.example.zapery.ui.components.PrimaryButton
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
@@ -31,15 +34,22 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
     ) { padding ->
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
             if (viewModel.carrinho.isEmpty()) {
-                Text("Carrinho vazio")
+                Text(
+                    "Carrinho vazio",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
             } else {
                 LazyColumn {
                     items(viewModel.carrinho) { item ->
-                        Card(
+                        OutlinedCard(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(12.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -72,9 +82,20 @@ fun TelaCarrinho(navController: NavController, viewModel: AppViewModel) {
                     }
                 }
                 Spacer(Modifier.height(16.dp))
-                Text("Total: R$ %,.2f".format(viewModel.calcularTotal()), style = MaterialTheme.typography.titleLarge)
+                Text(
+                    "Total: R$ %,.2f".format(viewModel.calcularTotal()),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
                 Spacer(Modifier.height(16.dp))
-                PrimaryButton(text = "Finalizar Compra", onClick = { navController.navigate("confirmacao") }, modifier = Modifier.fillMaxWidth())
+                PrimaryButton(
+                    text = "Finalizar Compra",
+                    onClick = { navController.navigate("confirmacao") },
+                    modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = Icons.Filled.CheckCircle,
+                    iconContentDescription = "Finalizar"
+                )
             }
         }
     }
