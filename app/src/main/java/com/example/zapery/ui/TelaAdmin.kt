@@ -88,7 +88,7 @@ fun TelaAdmin(navController: NavController, viewModel: AppViewModel, presetMarke
                     Spacer(Modifier.height(8.dp))
                 }
 
-                items(viewModel.produtos) { p ->
+                items(viewModel.produtos.filter { produto -> viewModel.mercados.any { it.id == produto.mercadoId } }) { p ->
                     OutlinedCard(
                         modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),

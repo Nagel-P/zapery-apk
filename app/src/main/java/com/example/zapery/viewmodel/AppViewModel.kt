@@ -169,8 +169,13 @@ class AppViewModel(
     fun adminDeleteMarket(id: Int) {
         if (!currentUserIsAdmin) return
         viewModelScope.launch {
+            // Remove produtos vinculados a este mercado antes de apagar o mercado
+            productRepo.deleteByMarket(id)
             marketRepo.deleteById(id)
             loadAll()
+            // Atualiza seleções rápidas e carrinho para remover itens que referenciavam produtos apagados
+            loadQuickForUser()
+            loadCartForUser()
         }
     }
 
