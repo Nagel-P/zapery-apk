@@ -10,4 +10,5 @@ class ProdutoRepositorio(private val dao: ProdutoDao) {
     suspend fun getByMarket(marketId: Int): List<ProdutoEntidade> = dao.getByMarket(marketId)
     suspend fun findById(id: Int): ProdutoEntidade? = dao.findById(id)
     suspend fun deleteById(id: Int) = dao.deleteById(id)
+    suspend fun deleteByMarket(marketId: Int) = dao.deleteByMarket(marketId)
 }

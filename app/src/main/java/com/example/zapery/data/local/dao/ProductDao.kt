@@ -26,4 +26,7 @@ interface ProdutoDao {
 
     @Query("DELETE FROM products WHERE id = :id")
     suspend fun deleteById(id: Int)
+
+    @Query("DELETE FROM products WHERE mercadoId = :marketId")
+    suspend fun deleteByMarket(marketId: Int)
 }
