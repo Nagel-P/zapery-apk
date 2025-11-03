@@ -64,7 +64,6 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
             Text("Selecione um Mercado", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
-            // Busca e ordenação (em Card para melhor organização visual)
             OutlinedCard(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
@@ -203,7 +202,7 @@ fun TelaMercados(navController: NavController, viewModel: AppViewModel) {
 }
 
 private fun isMarketOpen(): Boolean {
-    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) // 0..23
+    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     return hour in 8..21 // Aberto 08:00 até 21:59
 }
 

@@ -29,7 +29,6 @@ class AppViewModel(
     val mercados = mutableStateListOf<Mercado>()
     val produtos = mutableStateListOf<Produto>()
     val carrinho = mutableStateListOf<ItemCarrinho>()
-
     val selecaoRapida = mutableStateListOf<Int>()
 
     var currentUserId: Int? = null
@@ -103,7 +102,6 @@ class AppViewModel(
         currentUserId = user?.id
         if (currentUserId != null) {
             viewModelScope.launch {
-                // load admin flag from DB
                 currentUserIsAdmin = userRepo.findById(currentUserId!!)?.isAdmin == true
                 loadQuickForUser()
                 loadCartForUser()
@@ -136,7 +134,6 @@ class AppViewModel(
     private suspend fun seedIfNeeded() {
         if (marketRepo.getAll().isEmpty()) {
             marketRepo.insert(MercadoEntidade(nome = "Mercado Central", endereco = "Rua A, 123"))
-            // Não vamos semear produtos; o admin poderá cadastrar com imagens escolhidas
         }
     }
 
@@ -149,7 +146,6 @@ class AppViewModel(
         produtos.addAll(productRepo.getAll().map { Produto(it.id, it.nome, it.preco, it.mercadoId, it.imageUrl) })
     }
 
-    // Admin operations
     fun adminAddMarket(nome: String, endereco: String) {
         if (!currentUserIsAdmin) return
         viewModelScope.launch {
@@ -169,11 +165,9 @@ class AppViewModel(
     fun adminDeleteMarket(id: Int) {
         if (!currentUserIsAdmin) return
         viewModelScope.launch {
-            // Remove produtos vinculados a este mercado antes de apagar o mercado
             productRepo.deleteByMarket(id)
             marketRepo.deleteById(id)
             loadAll()
-            // Atualiza seleções rápidas e carrinho para remover itens que referenciavam produtos apagados
             loadQuickForUser()
             loadCartForUser()
         }
